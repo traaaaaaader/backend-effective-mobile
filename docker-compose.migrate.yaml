@@ -1,0 +1,12 @@
+services:
+  migrate_user:
+    container_name: migrate_user
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    env_file: .env
+    networks:
+      - backend
+
+networks:
+  backend:
