@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { AuthController } from "../controllers/auth.controller";
-import { UserService } from "../services/user.service";
 import { PrismaClient } from "@prisma/client";
+
+import { AuthController } from "../controllers";
+import { UserService } from "../services/user.service";
+
 import {
   registerValidator,
   loginValidator,
 } from "../validators/auth.validator";
-import { validate } from "../middlewares/validate.middleware";
+import { validateMiddleware } from "../middlewares";
 
 const prisma = new PrismaClient();
 const userService = new UserService(prisma);
@@ -14,7 +16,12 @@ const authController = new AuthController(userService);
 
 const router = Router();
 
-router.post("/register", registerValidator, validate, authController.register);
-router.post("/login", loginValidator, validate, authController.login);
+router.post(
+  "/register",
+  registerValidator,
+  validateMiddleware,
+  authController.register
+);
+router.post("/login", loginValidator, validateMiddleware, authController.login);
 
 export { router as authRouter };

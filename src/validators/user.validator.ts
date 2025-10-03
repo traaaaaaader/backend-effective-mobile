@@ -15,10 +15,6 @@ export const listUsersValidator = [
     .isInt({ min: 1 })
     .toInt()
     .withMessage("take должен быть >= 1"),
-  query("search")
-    .optional()
-    .isString()
-    .withMessage("search должен быть строкой"),
 ];
 
 export const setActiveValidator = [

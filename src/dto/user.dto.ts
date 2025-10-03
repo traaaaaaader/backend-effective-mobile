@@ -32,5 +32,4 @@ export type AuthResult = {
 export type ListUsersOptions = {
   skip?: number;
   take?: number;
-  search?: string;
 };

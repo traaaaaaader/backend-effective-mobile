@@ -42,7 +42,6 @@ export class UserController {
       const opts: ListUsersOptions = {
         skip: req.query.skip ? Number(req.query.skip) : undefined,
         take: req.query.take ? Number(req.query.take) : undefined,
-        search: req.query.search ? String(req.query.search) : undefined,
       };
       const result = await this.userService.list(requesterId, opts);
       res.json(result);

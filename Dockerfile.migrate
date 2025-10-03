@@ -1,15 +1,13 @@
+# Используем базовый образ Node.js
 FROM node:18-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
+COPY prisma ./prisma/
 
-RUN npm install --omit=dev
-
-COPY prisma ./prisma
-
-COPY .env ./
+RUN npm ci --omit=dev --ignore-scripts
 
 COPY . .
 
-CMD ["npx", "prisma", "migrate", "deploy"]
+CMD ["npm", "run", "prisma:migrate"]

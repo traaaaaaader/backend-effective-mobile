@@ -1,14 +1,15 @@
 import { Router } from "express";
-import { UserController } from "../controllers/user.controller";
-import { UserService } from "../services/user.service";
 import { PrismaClient } from "@prisma/client";
-import { authMiddleware } from "../middlewares/auth.middleware";
+
+import { UserController } from "../controllers";
+import { UserService } from "../services/user.service";
+
 import {
   listUsersValidator,
   setActiveValidator,
   userIdValidator,
 } from "../validators/user.validator";
-import { validate } from "../middlewares/validate.middleware";
+import { authMiddleware, validateMiddleware } from "../middlewares";
 
 const prisma = new PrismaClient();
 const userService = new UserService(prisma);
@@ -20,21 +21,21 @@ router.get(
   "/:id",
   authMiddleware,
   userIdValidator,
-  validate,
+  validateMiddleware,
   userController.getById
 );
 router.get(
   "/",
   authMiddleware,
   listUsersValidator,
-  validate,
+  validateMiddleware,
   userController.list
 );
 router.patch(
   "/:id/active",
   authMiddleware,
   setActiveValidator,
-  validate,
+  validateMiddleware,
   userController.setActive
 );
 

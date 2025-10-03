@@ -124,23 +124,13 @@ export class UserService {
       const skip = opts.skip ?? 0;
       const take = opts.take ?? 20;
 
-      const where: Prisma.UserWhereInput | undefined = opts.search
-        ? {
-            OR: [
-              { fullName: { contains: opts.search, mode: "insensitive" } },
-              { email: { contains: opts.search, mode: "insensitive" } },
-            ],
-          }
-        : undefined;
-
       const [items, total] = await Promise.all([
         this.prisma.user.findMany({
-          where,
           skip,
           take,
-          orderBy: { createdAt: "desc" },
+          orderBy: { createdAt: "asc" },
         }),
-        this.prisma.user.count({ where }),
+        this.prisma.user.count(),
       ]);
 
       return { items: items.map(this.excludePassword), total, skip, take };
